@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ReviewApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:ReviewApp.Views"
+    xmlns:rt="clr-namespace:ReviewApp"
+ 
+    Shell.FlyoutBehavior="Flyout"
+    Shell.NavBarHasShadow="True"
+    Shell.TabBarIsVisible="True"
+    MaximumWidthRequest="420"
+    Navigating="Shell_Navigating"
+    Padding="10"
+    FlyoutHeaderBehavior="CollapseOnScroll">
+
+
+    <TabBar Route="main" >
+        <ShellContent Title="Home" 
+                     Icon="{StaticResource Home}"
+                      Route="TopicsPage"
+                     ContentTemplate="{DataTemplate local:TopicsPage}" />
+        <ShellContent Title="WatchList" 
+                     Icon="{StaticResource Post}"
+                    Route="watchlist"
+                     ContentTemplate="{DataTemplate local:WatchListView}" />
+        <ShellContent Title="Messages"
+                     Icon="{x:StaticResource Message}"
+                     ContentTemplate="{DataTemplate local:MessagesPage}" />
+        
+
+    </TabBar>
+    <Shell.FlyoutHeader>
+        <Grid BackgroundColor="Red" Padding="20">
+
+            <StackLayout>
+                <Label Text="{Binding CurrentUser.FullName, StringFormat='Welcome, {0}'}" FontSize="Medium" TextColor="White" />
+                <Label Text="{Binding CurrentUser.Email}" FontSize="Small" TextColor="White" />
+            </StackLayout>
+        </Grid>
+    </Shell.FlyoutHeader>
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <StackLayout Orientation="Horizontal">
+                <Image Source="{Binding FlyoutIcon}"
+                       Margin="2"
+                       HeightRequest="16" />
+                <Label Margin="4"
+                       Text="{Binding Title}"
+                       VerticalTextAlignment="Center" />
+            </StackLayout>
+
+        </DataTemplate>
+    </Shell.ItemTemplate>
+    <Shell.MenuItemTemplate>
+        <DataTemplate>
+            <StackLayout Orientation="Horizontal" Padding="6">
+                <Image Source="{Binding FlyoutIcon}"
+                       Margin="2"
+                       HeightRequest="16" />
+                <Label Margin="4"
+                       Text="{Binding Title}"
+                       VerticalTextAlignment="Center" />
+            </StackLayout>
+        </DataTemplate>
+    </Shell.MenuItemTemplate>
+    
+    
+    <MenuItem  Text="Topics" IconImageSource="{StaticResource Home}" Clicked="navigate" CommandParameter="topics">
+
+    </MenuItem>
+    <MenuItem  Text="My Topics" IconImageSource="{StaticResource WatchList}" Clicked="navigate" CommandParameter="mytopics">
+
+    </MenuItem>
+    <MenuItem  Text="Start Topic" IconImageSource="{StaticResource Post}" Clicked="navigate" CommandParameter="addtopic">
+
+    </MenuItem>
+    <MenuItem  Text="Messages" IconImageSource="{StaticResource Message}" Clicked="navigate" CommandParameter="messages">
+
+    </MenuItem>
+    <MenuItem  Text="Notifications" IconImageSource="{StaticResource Notification}" Clicked="navigate" CommandParameter="notifications">
+
+    </MenuItem>
+    <MenuItem  Text="Watch List" IconImageSource="{StaticResource WatchList}" Clicked="navigate" CommandParameter="watchlist">
+
+    </MenuItem>
+    <MenuItem  Text="Recomended Users" IconImageSource="{StaticResource WatchList}" Clicked="navigate" CommandParameter="recomendedusers">
+
+    </MenuItem>
+    <MenuItem  Text="Followers" IconImageSource="{StaticResource WatchList}" Clicked="navigate" CommandParameter="Followers">
+
+    </MenuItem>
+
+    <MenuItem  Text="Logout" IconImageSource="{StaticResource Logout}" Clicked="navigate" CommandParameter="logout">
+
+    </MenuItem>
+</Shell>

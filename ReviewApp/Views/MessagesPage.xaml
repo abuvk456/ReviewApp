@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ReviewApp.ViewModels"
+             
+             x:Class="ReviewApp.Views.MessagesPage"
+             Title="Messages">
+
+    <ScrollView>
+        <StackLayout>
+            <RefreshView  IsRefreshing="{Binding ShowLoader}"
+                         Command="{Binding GeneralCommand}" CommandParameter="loadall">
+                <CollectionView ItemsSource="{Binding Messages}" SelectionMode="Single" SelectedItem="{Binding SelectedMessageConv}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="5">
+                                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="2" Color="#f3f3f3"/>
+                                <Grid Margin="5">
+                                    <Label Text="{Binding SentByName}" FontSize="12" />
+                                    <Label Text="{Binding SentDatetime,StringFormat='{0}'}" FontSize="12" TextColor="#888" 
+                                   HorizontalOptions="End" />
+
+                                </Grid>
+
+                                <Label Text="{Binding MessageText}" Padding="5" />
+                                <!--<Button BackgroundColor="White" Command="{Binding GeneralCommand}" CommandParameter="viewcon" HorizontalOptions="End" Margin="5" ImageSource="{StaticResource View}"></Button>-->
+                                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="2" Color="#f3f3f3"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label>There is no message to show</Label>
+                            <!--<Button Command="{Binding GeneralCommand}" CommandParameter="loadall" Text="Reload"></Button>-->
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                    
+                </CollectionView>
+            </RefreshView>
+        
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

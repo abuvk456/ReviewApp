@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ReviewApp.Views.UserInfo"
+             Title="UserInfo">
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Text="Back" Clicked="OnBackButtonClicked">
+   
+    </ToolbarItem>
+  </ContentPage.ToolbarItems>
+  <ContentPage.Content>
+    <ScrollView>
+      <StackLayout Margin="10">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <Image  Source="user.png" HeightRequest="150" WidthRequest="150" Aspect="AspectFill" />
+          <StackLayout Margin="10">
+            <Label Text="{Binding Username}" FontSize="Title" FontAttributes="Bold" />
+            <Label Text="{Binding FirstName} {Binding LastName}" FontSize="Subtitle" />
+            <Label Text="{Binding Country}" FontSize="Subtitle" />
+            <Label Text="{Binding Language}" FontSize="Subtitle" />
+          </StackLayout>
+        </Grid>
+
+        <BoxView HeightRequest="1" BackgroundColor="#ddd" Margin="0, 20" />
+
+        <Label Text="Activity" FontSize="Title" FontAttributes="Bold" Margin="0, 10" />
+        <StackLayout>
+          <Label Text="{Binding UpvoteCount, StringFormat='Upvotes: {0}'}" FontSize="Subtitle" />
+          <Label Text="{Binding DownvoteCount, StringFormat='Downvotes: {0}'}" FontSize="Subtitle" />
+        </StackLayout>
+
+        <BoxView HeightRequest="1" BackgroundColor="#ddd" Margin="0, 20" />
+
+        <Label Text="Profile Information" FontSize="Title" FontAttributes="Bold" Margin="0, 10" />
+        <StackLayout>
+          <Label Text="{Binding Age, StringFormat='Age: {0}'}" FontSize="Subtitle" />
+          <Label Text="{Binding Email}" FontSize="Subtitle" />
+          <Label Text="{Binding CreatedDate, StringFormat='Joined: {0:d}'}" FontSize="Subtitle" />
+          <Label Text="{Binding UpdatedDate, StringFormat='Last updated: {0:d}'}" FontSize="Subtitle" />
+          <Label Text="{Binding LastLoginDate, StringFormat='Last logged in: {0:d}'}" FontSize="Subtitle" />
+        </StackLayout>
+      </StackLayout>
+    </ScrollView>
+  </ContentPage.Content>
+</ContentPage>

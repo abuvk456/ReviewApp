@@ -1,0 +1,9 @@
+﻿{
+  "profiles": {
+    "ReviewAppAF": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7117",
+      "launchBrowser": false
+    }
+  }
+}

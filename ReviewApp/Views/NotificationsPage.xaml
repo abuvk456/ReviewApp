@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ReviewApp.Views.NotificationsPage"
+              xmlns:local="clr-namespace:CommonModel;assembly=CommonModel"
+             Title="Notifications">
+    <!--<ContentPage.ToolbarItems>
+        <ToolbarItem Text="Refresh" Command="{Binding RefreshCommand}" />
+    </ContentPage.ToolbarItems>-->
+    <StackLayout>
+
+        <CollectionView ItemsSource="{Binding Notifications}" x:Name="NotificationsCollectionView"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedNotification}"
+                        VerticalOptions="FillAndExpand"
+                        EmptyView="No notifications">
+            <CollectionView.ItemTemplate>
+                <DataTemplate >
+                    <Grid Margin="5,5" Padding="10" BackgroundColor="LightSkyBlue">
+                        <VerticalStackLayout>
+                            <Grid>
+                                <Label Text="{Binding NotificationText}" HorizontalOptions="Start"
+                                    LineBreakMode="WordWrap"
+                                    />
+                                <ImageButton Command="{Binding BindingContext.DeleteCommand, Source={x:RelativeSource AncestorType={x:Type CollectionView}}}"
+                                    CommandParameter="{Binding .}"  Source="{StaticResource Delete}" HeightRequest="10" Padding="0" Background="Transparent" HorizontalOptions="End"  >
+                                    
+                                </ImageButton>
+
+                            </Grid>
+                            
+                            
+                            <HorizontalStackLayout 
+                                            
+                                            >
+                                <Label HorizontalOptions="Start" Text="{Binding CreatedDatetime, StringFormat='{0:MMM dd, yyyy}' }"
+                                        FontSize="Caption" />
+                                <Label   Text="{Binding CreatedDatetime, StringFormat='{0:h:mm tt}'}"
+                                        FontSize="Caption" />
+
+                            </HorizontalStackLayout>
+
+
+                        </VerticalStackLayout>
+                            
+                            
+                        
+                                            </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+</ContentPage>

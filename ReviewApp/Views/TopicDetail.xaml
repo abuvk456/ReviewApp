@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ReviewApp.Views.TopicDetail"
+            
+             Shell.NavBarHasShadow="True"
+             Shell.TabBarIsVisible="true"
+             
+             Title="{Binding SelectedTopic.Title}">
+    <ScrollView>
+        <Grid  RowDefinitions="Auto, Auto,Auto, Auto" Margin="20">
+            <Grid BackgroundColor="{StaticResource Secondary}">
+
+
+
+                <StackLayout Grid.Column="1" Margin="10,0,0,0">
+                    <Grid   MaximumWidthRequest="350"
+                                  BackgroundColor="Silver"
+                                  >
+                        <Label FontSize="10" HorizontalOptions="Start" VerticalOptions="Center">No Image</Label>
+                        <Image Source="{Binding SelectedTopic.TopicImage}" Aspect="AspectFill" />
+
+                    </Grid>
+
+                    <HorizontalStackLayout>
+
+                        <Label  Margin="5"
+                                       Text="Title of Topic:"
+                                        />
+                        <Label 
+                                           FontAttributes="Bold" Margin="5"
+                                       Text="{Binding SelectedTopic.Title, StringFormat='{0}'}" />
+
+                    </HorizontalStackLayout>
+                    <BoxView Color="LightGray" HeightRequest="1"></BoxView>
+                    <Label  Margin="5"
+                                       Text="Description:"
+                                       />
+
+                    <Label Margin="5" 
+                                       HorizontalOptions="Start"
+                                       
+                                            
+                                       Text="{Binding SelectedTopic.Description, StringFormat='{0}'}" />
+                    <BoxView Color="LightGray" HeightRequest="1"></BoxView>
+                    <Label  Margin="5"
+                                       Text="{Binding SelectedTopic.IMDBRating, StringFormat='IMDB Rating: {0} out of 10 Rating'}" />
+                    <BoxView Color="LightGray" HeightRequest="1"></BoxView>
+
+                    <Label 
+                                       Text="{Binding SelectedTopic.CreatedDate, StringFormat='Started : {0:D}'}" Margin="5" />
+
+                    <BoxView Color="LightGray" HeightRequest="1"></BoxView>
+                    <HorizontalStackLayout>
+                        <Label 
+                                       Text="Started By:  " Margin="5" />
+                        <Label 
+                                       Text="{Binding SelectedTopic.Name}" Padding="5" >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer  Command="{Binding BindingContext.LoadUserInfoCommand, Source={RelativeSource AncestorType={x:Type ScrollView}}}"
+                                            CommandParameter="{Binding SelectedTopic.CreatedBy}" />
+                            </Label.GestureRecognizers>
+
+                        </Label>
+                        <Image Source="{StaticResource View}" WidthRequest="20" Margin="5">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer  Command="{Binding BindingContext.LoadUserInfoCommand, Source={RelativeSource AncestorType={x:Type ScrollView}}}"
+                                            CommandParameter="{Binding SelectedTopic.CreatedBy}" />
+                            </Image.GestureRecognizers>
+
+                        </Image>
+                    </HorizontalStackLayout>
+                    <BoxView Color="LightGray" HeightRequest="1"></BoxView>
+                    <HorizontalStackLayout HorizontalOptions="Center" Margin="20">
+                      
+
+                        <Label 
+                                       Text="Add to Watch List" Margin="5"  Background="green" TextColor="White" Padding="10">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer    Command="{Binding BindingContext.AddToWatchListCommand, Source={RelativeSource AncestorType={x:Type ScrollView}}}"
+                                            CommandParameter="{Binding SelectedTopic}" />
+                            </Label.GestureRecognizers>
+
+                        </Label>
+                        <HorizontalStackLayout Margin="5" Background="yellow" Padding="10">
+                            
+                            <Label 
+                                       Text="Watch Trailer"  TextColor="Red"  >
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer    Command="{Binding PlayVideoCommand}"  />
+                                </Label.GestureRecognizers>
+
+
+                            </Label>
+                            <Image Source="{StaticResource Video}" Margin="5,0">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer    Command="{Binding PlayVideoCommand}"  />
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </HorizontalStackLayout>
+
+
+
+                    </HorizontalStackLayout>
+                </StackLayout>
+
+
+            </Grid>
+
+
+
+            <StackLayout Grid.Row="3"  Padding="0" Grid.ColumnSpan="3" HorizontalOptions="FillAndExpand" Margin="10">
+                <Label  Text="Latest Comments"></Label>
+
+
+                <CollectionView  ItemsSource="{Binding SelectedTopic.Comments}" HorizontalOptions="FillAndExpand">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+
+
+                            <VerticalStackLayout  >
+                                <BoxView Color="LightGray" HeightRequest="1"></BoxView>
+                                <Label Text="{Binding CommentDateTime,StringFormat='Date : {0:D}'}" FontSize="10" HorizontalOptions="End" />
+                                <Label Text="{Binding CommentText}" Padding="0,10"/>
+                                <Label Text="{Binding UserName, StringFormat='By: {0}'}" FontSize="10" HorizontalOptions="End"/>
+                                <Grid Margin="0,10" IsVisible="{Binding IsEditAllowed}">
+                                  
+                                    <Image Source="{StaticResource Delete}" WidthRequest="12" HorizontalOptions="Start">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer  Command="{Binding BindingContext.DeleteCommentCommand, Source={RelativeSource AncestorType={x:Type CollectionView}}}"
+                                            CommandParameter="{Binding .}" />
+                                        </Image.GestureRecognizers>
+
+                                    </Image>
+                                    <Label Text="Edit" FontSize="12" HorizontalOptions="End">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer  Command="{Binding BindingContext.EditCommentCommand, Source={RelativeSource AncestorType={x:Type CollectionView}}}"
+                                            CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+
+                                </Grid>
+                                
+                            
+                            </VerticalStackLayout>
+
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <VerticalStackLayout Grid.ColumnSpan="4">
+                    <Entry Placeholder="Add comment" Text="{Binding SelectedComment.CommentText}" />
+                    <Button Text="Post Comment" Command="{Binding PostCommentCommand}" CommandParameter="{Binding SelectedComment}" />
+                </VerticalStackLayout>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

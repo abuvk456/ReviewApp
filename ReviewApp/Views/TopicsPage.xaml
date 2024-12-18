@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ReviewApp.Views.TopicsPage"
+             Shell.NavBarHasShadow="True"
+             Shell.TabBarIsVisible="true"
+             
+             >
+    <Shell.TitleView>
+        <Grid Margin="5,0">
+            <Label Padding="0" Text="Home" TextColor="Red" FontSize="16" ></Label>
+
+
+            <Label Padding="5" Background="red" TextColor="White" VerticalOptions="Center"
+                       Text="Start a Topic"
+                       HorizontalOptions="End">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AddTopicCommand}" CommandParameter="nothing" />
+                </Label.GestureRecognizers>
+            </Label>
+
+        </Grid>
+
+    </Shell.TitleView>
+    <ScrollView>
+
+        <Grid >
+
+            <StackLayout  Padding="5">
+
+                <SearchBar SearchCommand="{Binding SearchCommand}"
+                       Placeholder="Search Topics"
+                       Text="{Binding SearchQuery}" />
+
+                <Grid BackgroundColor="Salmon" IsVisible="{Binding ShowFilteredByUser}">
+                    <Label Margin="12"
+                       HorizontalOptions="Start"
+                       Text="{Binding SelectedUser.FullName, StringFormat='Showing topics by User: {0}'}" />
+
+                    <Label Margin="12"
+                       Text="Remove user filter"
+                       HorizontalOptions="End">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ClearFilterCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+                <StackLayout Orientation="Horizontal">
+                    <RadioButton Content="All Topics"
+                             IsChecked="{Binding AllTypeSelected, Mode=TwoWay}" />
+
+                    <RadioButton Content="Movies"
+                             IsChecked="{Binding MovieTypeSelected, Mode=TwoWay}" />
+
+                    <RadioButton Content="TV Shows"
+                             IsChecked="{Binding TVTypeSelected, Mode=TwoWay}" />
+
+                    <RadioButton Content="Other"
+                             IsChecked="{Binding OtherTypeSelected, Mode=TwoWay}" />
+                </StackLayout>
+
+                <CollectionView ItemsSource="{Binding Topics}" x:Name="SysTopicsCollection" ItemSizingStrategy="MeasureAllItems">
+
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+
+                                <VerticalStackLayout>
+
+
+                                    <Grid WidthRequest="460" 
+HorizontalOptions="Center" HeightRequest="250"
+                                  BackgroundColor="Silver"
+                                  >
+                                        <Label FontSize="10" HorizontalOptions="Center" VerticalOptions="Center">No Image</Label>
+                                        <Image Source="{Binding TopicImage}" Aspect="AspectFill" />
+
+                                    </Grid>
+
+                                    <HorizontalStackLayout>
+
+                                        <Label  Margin="5"
+                                       Text="Title of Topic:"
+                                        />
+                                        <Label 
+                                           FontAttributes="Bold" Margin="5"
+                                       Text="{Binding Title, StringFormat='{0}'}" />
+
+                                    </HorizontalStackLayout>
+                                    <BoxView Color="LightGray" Opacity=".3"  HeightRequest="1"></BoxView>
+                                    <Label  Margin="5"
+                                       Text="Description:"
+                                       />
+
+                                    <Label Margin="5"
+                                       HorizontalOptions="Start"
+                                       MaxLines="3"
+                                    LineBreakMode="CharacterWrap"
+                                            
+                                       Text="{Binding Description, StringFormat='{0}'}" />
+                                    <BoxView Color="LightGray" Opacity=".3" HeightRequest="1"></BoxView>
+                                    <Label  Margin="5"
+                                       Text="{Binding IMDBRating, StringFormat='IMDB Rating: {0} out of 10 Rating'}" />
+                                    <BoxView Color="LightGray" Opacity=".3" HeightRequest="1"></BoxView>
+
+                                    <Label 
+                                       Text="{Binding CreatedDate, StringFormat='Started : {0:D}'}" Margin="5" />
+
+                                    <BoxView Color="LightGray" Opacity=".3" HeightRequest="1"></BoxView>
+                                    <HorizontalStackLayout>
+                                        <Label 
+                                       Text="Started By:  " Margin="5" />
+                                        <Label 
+                                       Text="{Binding Name}" Margin="5" >
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer  Command="{Binding BindingContext.LoadUserInfoCommand, Source={RelativeSource AncestorType={x:Type CollectionView}}}"
+                                            CommandParameter="{Binding CreatedBy}" />
+                                            </Label.GestureRecognizers>
+
+                                        </Label>
+                                        <Image Source="{StaticResource View}" WidthRequest="20" Margin="5">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer  Command="{Binding BindingContext.LoadUserInfoCommand, Source={RelativeSource AncestorType={x:Type CollectionView}}}"
+                                            CommandParameter="{Binding CreatedBy}" />
+                                            </Image.GestureRecognizers>
+
+                                        </Image>
+                                    </HorizontalStackLayout>
+                                    <BoxView Color="LightGray" Opacity=".3" HeightRequest="1"></BoxView>
+                                    <HorizontalStackLayout HorizontalOptions="Center" Margin="0,20">
+                                        <Label IsVisible="{Binding IsDeleteAllowed}"
+                                       Text="Delete" Margin="2"  Background="DarkRed" TextColor="White" Padding="4" VerticalTextAlignment="Center" FontSize="12">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer    Command="{Binding BindingContext.DeleteTopicCommand, Source={RelativeSource AncestorType={x:Type CollectionView}}}"
+                                            CommandParameter="{Binding .}" />
+                                            </Label.GestureRecognizers>
+
+                                        </Label>
+
+                                        <Label 
+                                       Text="Add to Watch List" Margin="2"  Background="green" TextColor="White" Padding="4" VerticalTextAlignment="Center" FontSize="12">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer    Command="{Binding BindingContext.AddToWatchListCommand, Source={RelativeSource AncestorType={x:Type CollectionView}}}"
+                                            CommandParameter="{Binding .}" />
+                                            </Label.GestureRecognizers>
+
+                                        </Label>
+
+                                        <Label 
+                                       Text="View Details" Margin="2" Background="Red" TextColor="White" Padding="4" VerticalTextAlignment="Center" FontSize="12">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer    Command="{Binding BindingContext.ViewTopicCommnad, Source={RelativeSource AncestorType={x:Type CollectionView}}}"
+                                            CommandParameter="{Binding .}" />
+                                            </Label.GestureRecognizers>
+
+                                        </Label>
+
+
+                                    </HorizontalStackLayout>
+
+                                </VerticalStackLayout>
+
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+
+                        <VerticalStackLayout HorizontalOptions="Center">
+                            <Label HorizontalOptions="Center" Margin="10">There is no topic, please Start a new topic</Label>
+                            <!--<Button Clicked="Button_Clicked" Text="test" Command="{Binding BindingContext.AddTopicCommand, Source={RelativeSource AncestorType={x:Type CollectionView}}}"></Button>
+                            <Label Margin="5" Padding="10" Background="red" TextColor="White" HorizontalOptions="Center" 
+                                Text="Start a Topic"
+                                >
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.AddTopicCommand, Source={RelativeSource AncestorType={x:Type CollectionView}}}"  CommandParameter="nothing" />
+                                </Label.GestureRecognizers>
+                            </Label>-->
+                        </VerticalStackLayout>
+
+
+                    </CollectionView.EmptyView>
+                </CollectionView>
+            </StackLayout>
+
+            <Grid Background="White" IsVisible="{Binding ShowLoader}">
+                <VerticalStackLayout>
+                    <Label Text="Please wait for loading.." HorizontalOptions="Center"/>
+                    <ActivityIndicator VerticalOptions="Start" Margin="10,10" IsRunning="{Binding ShowLoader}" IsVisible="{Binding ShowLoader}"></ActivityIndicator>
+
+                </VerticalStackLayout>
+            </Grid>
+        </Grid>
+    </ScrollView>
+</ContentPage>

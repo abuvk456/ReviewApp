@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ReviewApp.Views.AddTopic"
+             Shell.TabBarIsVisible="False"
+             Shell.NavBarIsVisible="False"
+            xmlns:md="clr-namespace:ReviewApp.Model"
+             Title="Create Topic">
+  <ContentPage.Resources>
+
+    <Style TargetType="Label">
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="Margin" Value="0, 10, 0, 0" />
+    </Style>
+    <Style TargetType="Entry">
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="Margin" Value="0, 5, 0, 0" />
+      <Setter Property="PlaceholderColor" Value="#CCCCCC" />
+      <Setter Property="Placeholder" Value="--" />
+    </Style>
+    <Style TargetType="Editor">
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="Margin" Value="0, 5, 0, 0" />
+      <Setter Property="PlaceholderColor" Value="#CCCCCC" />
+      <Setter Property="Placeholder" Value="--" />
+    </Style>
+    <Style TargetType="Button" x:Key="PrimaryButtonStyle">
+      <Setter Property="BackgroundColor" Value="#6200EE" />
+      <Setter Property="TextColor" Value="White" />
+      <Setter Property="Margin" Value="0, 20, 0, 0" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="CornerRadius" Value="5" />
+    </Style>
+
+    <md:TopicTypeToBooleanConverter x:Key="TopicTypeToBooleanConverter" />
+    <md:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+  </ContentPage.Resources>
+
+  <ContentPage.Content>
+    <ScrollView Padding="5" MaximumWidthRequest="420" HorizontalOptions="Start">
+            <Grid >
+       
+        <StackLayout Padding="5">
+                    <Label Text="Please add below information" />
+                    <BoxView HeightRequest="4" Color="#90d1d1d1" Margin="0,5"></BoxView>
+                    <Label Text="Title" />
+                    
+                    <Grid>
+                        <Entry Text="{Binding SelectedTopic.Title}" Placeholder="Enter title..." />
+                        <StackLayout IsVisible="{Binding SelectedTopic.ShowSearchButton}" HorizontalOptions="End">
+                            <Button Text="Search IMDB" Padding="5,0" HeightRequest="10" FontSize="12" Command="{Binding SelectedTopic.IMDBSearchCommand}"/>
+
+                        </StackLayout>
+                    </Grid>
+                              <StackLayout>
+            <Label Text="Topic Type" />
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+
+              <RadioButton  Grid.Column="0"   HorizontalOptions="FillAndExpand" GroupName="type" IsChecked="{Binding SelectedTopic.IsMovie}">
+                <RadioButton.Content>
+                  <VerticalStackLayout Padding="5">
+                    <Image 
+                       HorizontalOptions="Center"
+                       
+                       VerticalOptions="Center" />
+                    <Label Text="Movie"
+                       HorizontalOptions="Center"
+                       VerticalOptions="End" />
+                  </VerticalStackLayout>
+                </RadioButton.Content>
+              </RadioButton>
+
+              <RadioButton Grid.Column="1" Padding="5" Margin="3"  HorizontalOptions="FillAndExpand" GroupName="type" IsChecked="{Binding SelectedTopic.IsTvShow}">
+                <RadioButton.Content>
+                  <StackLayout>
+                    <Image Source="tv.png"
+                       HorizontalOptions="Center"
+                       HeightRequest="28" WidthRequest="28"
+                       VerticalOptions="Center" />
+                    <Label Text="TV Show"
+                       HorizontalOptions="Center"
+                       VerticalOptions="End" />
+                  </StackLayout>
+                </RadioButton.Content>
+              </RadioButton>
+
+              <RadioButton Grid.Column="2" Padding="5" Margin="3" HorizontalOptions="FillAndExpand" GroupName="type" IsChecked="{Binding SelectedTopic.IsOther}">
+                <RadioButton.Content>
+                  <StackLayout HorizontalOptions="FillAndExpand">
+                    <Image Source="other.png"
+                       HorizontalOptions="Center"
+                       HeightRequest="28" WidthRequest="28"
+                       VerticalOptions="Center" />
+                    <Label Text="Other"
+                       HorizontalOptions="Center"
+                       VerticalOptions="End" />
+                  </StackLayout>
+                </RadioButton.Content>
+              </RadioButton>
+            </Grid>
+
+          </StackLayout>
+         
+
+
+
+          <StackLayout IsVisible="{Binding SelectedTopic.ShowSearchResult}" BackgroundColor="White" Padding="10" Spacing="10">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+
+              <Label Text="Search Results" FontSize="Small" FontAttributes="Bold" />
+
+            </Grid>
+
+            <ScrollView>
+              <Grid>
+                <CollectionView ItemsSource="{Binding SelectedTopic.SearchResults}" SelectionMode="Single" >
+                  <CollectionView.EmptyView>
+                    <Label Text="No items to display" />
+                  </CollectionView.EmptyView>
+                  <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                      <StackLayout Padding="10" Orientation="Vertical">
+                        <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                          </Grid.ColumnDefinitions>
+                          <Grid HeightRequest="100" Background="silver" 
+                                    WidthRequest="100" >
+                            <Label HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="10">Image loading..</Label>
+                            <Image Grid.Column="0" 
+                                    Source="{Binding ImageUrl}" 
+                                    Aspect="AspectFill" 
+                                    HeightRequest="100" 
+                                    WidthRequest="100"  >
+
+                            </Image>
+
+                          </Grid>
+
+                          <StackLayout Grid.Column="1"
+                                    Margin="10,0,0,0"
+                                    Orientation="Vertical">
+
+                            <Label Text="{Binding Title}" 
+                                        FontAttributes="Bold"
+                                        FontSize="12"
+                                        />
+
+                            <Label Text="{Binding Overview}" 
+                                        FontSize="12" 
+                                        />
+                          </StackLayout>
+                        </Grid>
+
+                        <Button Text="Create Topic for this" Command="{Binding BindingContext.SelectedTopic.StartTopicCommand, Source={RelativeSource AncestorType={x:Type CollectionView}}}" CommandParameter="{Binding .}"
+                              HorizontalOptions="End" FontSize="12"/>
+                      </StackLayout>
+                    </DataTemplate>
+                  </CollectionView.ItemTemplate>
+                </CollectionView>
+                <StackLayout IsVisible="{Binding SelectedTopic.IsSearching}" Background="white">
+                  <Label>Please wait while searching..</Label>
+                  <ActivityIndicator IsRunning="{Binding SelectedTopic.IsSearching}" IsEnabled="True"></ActivityIndicator>
+
+                </StackLayout>
+
+              </Grid>
+            </ScrollView>
+          </StackLayout>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="150"/>
+              <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+            <StackLayout Grid.Column="0" >
+                            <Label Text="Image (Change)" Margin="5" FontSize="12">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectPictureCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <Image x:Name="topicImage" WidthRequest="150" Source="{Binding SelectedTopic.TopicImage}" HorizontalOptions="Start" />
+
+            </StackLayout>
+            <StackLayout Grid.Column="1" Margin="0">
+
+
+              <Label Text="Description" Margin="5"/>
+              <Editor Margin="5" Text="{Binding SelectedTopic.Description}" Placeholder="Enter description..." HeightRequest="100" />
+            </StackLayout>
+          </Grid>
+
+
+
+
+
+          <Label Text="Topic Video" />
+          <Entry Text="{Binding SelectedTopic.TopicVideo}" Placeholder="Enter video URL..." />
+
+          <!--<WebView Source="{Binding SelectedTopic.TopicVideo}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+         IsVisible="{Binding SelectedTopic.TopicVideo, Converter={StaticResource BooleanToVisibilityConverter}}" />-->
+
+
+          <StackLayout Orientation="Horizontal" Margin="0, 20, 0, 0">
+            <Button Text="Save"  Margin="3" Command="{Binding SaveTopicCommand}" HorizontalOptions="FillAndExpand"  />
+
+            <Button Text="Cancel"  Margin="3" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"  />
+          </StackLayout>
+
+        </StackLayout>
+        <ActivityIndicator Background="White" IsRunning="{Binding ShowLoader}" IsVisible="{Binding ShowLoader}" IsEnabled="True"></ActivityIndicator>
+      </Grid>
+    </ScrollView>
+  </ContentPage.Content>
+
+</ContentPage>

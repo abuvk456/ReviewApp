@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels="clr-namespace:ReviewApp.ViewModels"
+             x:Class="ReviewApp.Views.SignupPage"
+             Shell.FlyoutBehavior="Disabled"
+             
+             Title="Please Enter Info to Signup">
+
+    <Grid Background="#512BD4" >
+        <VerticalStackLayout MaximumWidthRequest="420" Background="white" Padding="20">
+            <VerticalStackLayout>
+                <StackLayout Background="#512BD4" Padding="0,5" Margin="0,5">
+                    <Image  Source="logo.png"  HeightRequest="60" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,20,0,20" >
+
+                    </Image>
+                    <Label HorizontalOptions="Center" TextColor="White" FontSize="Small" FontAttributes="Bold" Margin="0,-30,0,5">Review App</Label>
+                </StackLayout>
+               </VerticalStackLayout>
+            <StackLayout>
+                <Label Text="Please fill following information to join us." FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
+                <BoxView HeightRequest="1" BackgroundColor="Black" Margin="0,5,0,5" />
+
+                <Label FontSize="10" Margin="0,5" Text="Email:" VerticalOptions="Center" />
+                <Entry Text="{Binding Email}" Placeholder="Email" Keyboard="Email" />
+
+                <Label FontSize="10" Margin="0,5" Text="First Name:" VerticalOptions="Center" />
+                <Entry Text="{Binding FirstName}" Placeholder="First Name" />
+
+                <Label FontSize="10" Margin="0,5" Text="Last Name:" VerticalOptions="Center" />
+                <Entry Text="{Binding LastName}" Placeholder="Last Name" />
+
+                <Label FontSize="10" Margin="0,5" Text="Password:" VerticalOptions="Center" />
+                <Entry Text="{Binding Password}" Placeholder="Password" IsPassword="True" />
+
+                <Label FontSize="10" Margin="0,5" Text="Age:" VerticalOptions="Center" />
+                <Entry Text="{Binding Age}" Placeholder="Age" Keyboard="Numeric" />
+                <HorizontalStackLayout>
+                <Label FontSize="10" Margin="0,5" Text="Country:" VerticalOptions="Center" />
+                <Picker ItemsSource="{Binding Countries}" ItemDisplayBinding="{Binding Name}" SelectedItem="{Binding SelectedCountry}" />
+
+                <Label Text="Language:" VerticalOptions="Center" />
+                <Picker ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguage}" />
+
+                    
+                </HorizontalStackLayout>
+                <StackLayout Orientation="Horizontal" Margin="0,10,0,0">
+                    <Button Text="Signup" Command="{Binding SignupCommand}" HorizontalOptions="End" />
+                    <Button Text="Cancel" Command="{Binding CancelSignUpCommand}" HorizontalOptions="Start" />
+                </StackLayout>
+
+                <Label FontSize="10" Margin="0,5" Text="{Binding ErrorMessage}" TextColor="Red" />
+
+            </StackLayout>
+
+        </VerticalStackLayout>
+       
+        <Grid IsVisible="{Binding ShowLoader}" Background="white">
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <Label>Please wait while we are signing you up....</Label>
+                <ActivityIndicator IsRunning="{Binding ShowLoader}" />
+            </VerticalStackLayout>
+        
+        
+        </Grid>
+    </Grid>
+
+</ContentPage>
